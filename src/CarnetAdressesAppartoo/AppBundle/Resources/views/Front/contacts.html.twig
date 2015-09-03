@@ -1,0 +1,71 @@
+{% extends "CarnetAdressesAppartooAppBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }} - Contacts de {{ app.user.username }}
+{% endblock %}
+
+{% block menubar %}
+    <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+            <li><a href="{{ path('fos_user_profile_show') }}">Mon profil</a></li>
+            <li class="active"><a href="{{ path('carnet_app_contacts') }}">Mes contacts</a></li>
+            <li><a href="{{ path('carnet_app_search') }}">Faire une recherche dans mes contacts</a></li>
+        </ul>
+       {{ parent() }}
+    </div>
+{% endblock %}
+
+{% block header %}
+    {{ parent() }}
+    <h3> Contacts du membre <b>{{ app.user.username }}</b></h3>
+    <p class="text-center text-info">
+        Décocher des contacts de votre liste pour les supprimer de votre carnet d'adresses.
+    </p>
+    {% for msg in app.session.flashbag.get('confirm') %}
+        <small class="text-center text-success">{{ msg }}</small>
+    {% endfor %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-8 col-md-offset-2">
+            {% if contactsForm is not null %}
+            {{ form_start(contactsForm, { 'method':'post', 'action':path('carnet_app_contacts', {'username':username}) } ) }}
+                <table class="table table-hover">
+                    <caption class="lead"><i>Vos contacts</i></caption>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Pseudo</th>
+                            <th>Adresse mail</th>
+                            <th>Prénom et nom</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for child in contactsForm.contacts %}
+                        {% set index = child.vars.value %}
+                        <tr>
+                            <td>{{ form_widget(child) }}</td>
+                            <td>
+                                <a href="{{ path('carnet_app_profile', {'username':choices[index].username}) }}">
+                                    {{ choices[index].username }}
+                                </a>
+                            </td>
+                            <td>{{ choices[index].email }}</td>
+                            <td>{{ choices[index].firstname }} {{ choices[index].surname }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <div class="text-right">
+                    <input type="submit" class="btn btn-danger btn-md" value="Mettre à jour les contacts">
+                </div>
+            {{ form_end(contactsForm) }}
+            {% else %}
+                <p class="lead">
+                    Votre liste de contacts est vide.
+                </p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

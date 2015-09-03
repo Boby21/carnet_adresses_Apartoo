@@ -1,0 +1,14 @@
+{# src/CarnetAdressesAppartoo/UserBundle/Resources/views/layout.html.twig #}
+{% extends "::base.html.twig" %}
+
+{% block title %}
+	{{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+    {# On définit ce block, dans lequel vont venir s'insérer les autres vues du bundle #}
+    <div class="container">
+        {% block fos_user_content %}{% endblock %}
+    </div>
+{% endblock %}

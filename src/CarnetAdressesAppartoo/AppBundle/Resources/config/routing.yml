@@ -1,0 +1,21 @@
+# src/CarnetAdressesAppartoo/AppBundle/Resources/config/routing.yml
+
+# Route du contrôleur de redirection
+carnet_app_index:
+    path: /
+    defaults: { _controller: 'CarnetAdressesAppartooAppBundle:Front:index' }
+
+# Route vers la page de profil de l'utilisateur : profile.html.twig
+carnet_app_profile:
+    path: /view/{username}
+    defaults: { _controller: 'CarnetAdressesAppartooAppBundle:Front:profile' }
+
+# Route vers la page de la liste des contacts de l'utilisateur : contacts.html.twig
+carnet_app_contacts:
+    path: /profile/contacts/
+    defaults: { _controller: 'CarnetAdressesAppartooAppBundle:Front:contacts' }
+
+# Route vers la page de recherche de contacts : search.html.twig
+carnet_app_search:
+    path: /search/
+    defaults: { _controller: 'CarnetAdressesAppartooAppBundle:Front:search' }

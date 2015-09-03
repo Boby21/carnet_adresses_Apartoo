@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        {% block stylesheets %}
+            {% stylesheets 'bundles/carnetadressesapp/css/*' filter='cssrewrite' %}
+                <link href="{{ asset_url }}" rel="stylesheet" />
+            {% endstylesheets %}
+            <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        {% endblock %}
+        
+        <title>{% block title %}CarnetAdressesApp{% endblock %}</title>
+    </head>
+
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                        <a href="{{ path('fos_user_profile_show') }}" class="navbar-brand">Accueil</a>
+                    {% else %}
+                        <a href="{{ path('fos_user_security_login') }}" class="navbar-brand">Accueil</a>
+                    {% endif %}
+                </div>
+                {% block menubar %}
+                    {# Ajouter les liens vers les autres pages en fonction de la page où l'on se trouve #}
+
+                    <ul class="nav navbar-nav navbar-right">
+                        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                            <li><a>Bonjour {{ app.user.firstname }}</a></li>
+                            <li><a href="{{ path('fos_user_security_logout') }}">Déconnexion</a></li>
+                        {% endif %}
+                    </ul>
+                {% endblock %}
+            </div>
+        </nav>
+
+        {% block body %}
+            <div class="jumbotron">
+                <div class="container">
+                    <header class="page-header">
+                        {% block header %}
+                            <h2><b>CarnetAdressesApp - mon carnet d'adresses en ligne</b></h2>
+                        {% endblock %}
+                    </header>
+                </div>
+            </div>
+        {% endblock %}
+
+        <hr>
+
+        <footer class="footer">
+            <div class="container">
+                <p class="text-muted text-right">
+                    © Brondon UNG 2014-2015
+                </p>
+            </div>
+        </footer>
+
+        {% block scripts %}{% endblock %}
+    </body>
+</html>
